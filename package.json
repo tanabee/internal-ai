@@ -4,12 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "concurrently \"pnpm run emulator\" \"pnpm run build:watch\"",
+    "emulator": "firebase emulators:start",
+    "build:watch": "pnpm -r run build:watch",
+    "kill": "lsof -i:3000,4000,4400,5001,5050,8080,8085,9099,9199 -t | xargs kill"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4"
+    "@biomejs/biome": "^1.9.4",
+    "concurrently": "^9.1.0"
   }
 }
