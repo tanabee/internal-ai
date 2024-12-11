@@ -6,9 +6,9 @@ export default function App() {
     <Routes>
       <Route path="*" element={<Layout />}>
         <Route path="chat">
-          <Route index element={<>AAA</>} />
-          <Route path=":id/*" element={<>BBB</>} />
-          <Route path="new" element={<>CCC</>} />
+          <Route index element={<>root</>} />
+          <Route path=":id" element={<>id</>} />
+          <Route path="new" element={<>new</>} />
         </Route>
         <Route path="*" element={<Navigate to="/chat" replace />} />
       </Route>
