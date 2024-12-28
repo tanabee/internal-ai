@@ -1,10 +1,8 @@
 import AddIcon from '@mui/icons-material/Add'
-import MailIcon from '@mui/icons-material/Mail'
 import MenuIcon from '@mui/icons-material/Menu'
-import InboxIcon from '@mui/icons-material/MoveToInbox'
 import AppBar from '@mui/material/AppBar'
+import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
 import Drawer from '@mui/material/Drawer'
 import IconButton from '@mui/material/IconButton'
@@ -13,18 +11,20 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
+import Popover from '@mui/material/Popover'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import * as React from 'react'
+import { useState } from 'react'
 import { Outlet } from 'react-router'
 
 import Logo from '@/assets/Logo.tsx'
-
+import { signOut } from '@/lib/Auth'
 const drawerWidth = 320
 
 export default function ResponsiveDrawer() {
-  const [mobileOpen, setMobileOpen] = React.useState(false)
-  const [isClosing, setIsClosing] = React.useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [isClosing, setIsClosing] = useState(false)
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
 
   const handleDrawerClose = () => {
     setIsClosing(true)
@@ -78,7 +78,7 @@ export default function ResponsiveDrawer() {
           ml: { sm: `${drawerWidth}px` },
         }}
       >
-        <Toolbar sx={{ bgcolor: 'background.default' }}>
+        <Toolbar sx={{ px: 1, bgcolor: 'background.default' }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -88,9 +88,37 @@ export default function ResponsiveDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            xxx
+          <Typography
+            variant="h2"
+            noWrap
+            component="div"
+            sx={{ pl: 1, flex: 1 }}
+          >
+            New Chat
           </Typography>
+          <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
+            <Avatar
+              sx={{ width: 32, height: 32, bgcolor: 'grey.700' }}
+              src="https://github.com/tanabee.png"
+            />
+          </IconButton>
+          <Popover
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={() => setAnchorEl(null)}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            marginThreshold={1}
+            sx={{ '.MuiPaper-root': { border: 1, borderColor: 'grey.700' } }}
+          >
+            <List>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => signOut()}>
+                  <ListItemText primary="ログアウト" />
+                </ListItemButton>
+              </ListItem>
+            </List>
+          </Popover>
         </Toolbar>
       </AppBar>
       <Box

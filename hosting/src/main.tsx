@@ -1,4 +1,4 @@
-import React from 'react'
+import { AuthProvider } from '@/lib/Auth'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router'
 
@@ -11,11 +11,11 @@ if (!root) {
 }
 
 ReactDOM.createRoot(root).render(
-  <React.StrictMode>
-    <ThemeProvider>
+  <ThemeProvider>
+    <AuthProvider>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </ThemeProvider>
-  </React.StrictMode>,
+    </AuthProvider>
+  </ThemeProvider>,
 )
