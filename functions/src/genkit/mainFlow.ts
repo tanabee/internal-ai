@@ -8,27 +8,22 @@ const ai = genkit({
   plugins: [
     vertexAI({ location: 'asia-northeast1', projectId: 'internal-ai-demo' }),
   ],
+  model: gemini15Flash,
 })
 
 export const mainFlow = onFlow(
   ai,
   {
     name: 'mainFlow',
-    inputSchema: z.string(),
-    outputSchema: z.string(),
     authPolicy: firebaseAuth((user) => {
-      console.log('user', user)
-      if (!user.email_verified) {
-        throw new Error('Verified email required to run flow')
-      }
+      // if (!user.email_verified) {
+      //   throw new Error('Verified email required to run flow')
+      // }
     }),
   },
-  async (prompt) => {
-    const llmResponse = await ai.generate({
-      model: gemini15Flash,
-      prompt,
-      config: { temperature: 1 },
-    })
-    return llmResponse.text
+  async (messages) => {
+    console.log('messages', messages)
+    const response = await ai.generate({ messages })
+    return response.messages
   },
 )

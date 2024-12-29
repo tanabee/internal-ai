@@ -18,13 +18,14 @@ import { useState } from 'react'
 import { Outlet } from 'react-router'
 
 import Logo from '@/assets/Logo.tsx'
-import { signOut } from '@/lib/Auth'
+import { signOut, useAuth } from '@/lib/Auth'
 const drawerWidth = 320
 
 export default function ResponsiveDrawer() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
+  const { user } = useAuth()
 
   const handleDrawerClose = () => {
     setIsClosing(true)
@@ -99,7 +100,7 @@ export default function ResponsiveDrawer() {
           <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
             <Avatar
               sx={{ width: 32, height: 32, bgcolor: 'grey.700' }}
-              src="https://github.com/tanabee.png"
+              src={user?.photoURL ?? ''}
             />
           </IconButton>
           <Popover
@@ -161,8 +162,10 @@ export default function ResponsiveDrawer() {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
+          height: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
         <Toolbar />

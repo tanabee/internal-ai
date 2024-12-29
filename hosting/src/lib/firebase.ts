@@ -22,7 +22,7 @@ const auth = getAuth(app)
 if (import.meta.env.DEV) {
   connectFunctionsEmulator(functions, 'localhost', 5001)
   connectFirestoreEmulator(db, 'localhost', 8080)
-  // FIXME: 下部のバナーを非表示にする。現状は app/globals.css で対応している
+  // FIXME: 下部のバナーを非表示にする。現状は css で対応している
   connectAuthEmulator(auth, 'http://127.0.0.1:9099', { disableWarnings: true })
 }
 

@@ -19,7 +19,7 @@ const theme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#9454F8',
+      main: '#fff',
     },
     background: {
       default: grey[850],
@@ -34,7 +34,7 @@ const theme = createTheme({
   typography: {
     h1: { fontSize: '32px', fontWeight: 700, color: '#fff' },
     h2: { fontSize: '20px', fontWeight: 500, color: grey[500] },
-    body1: { fontSize: '14px', fontWeight: 400, color: grey[500] },
+    body1: { fontSize: '16px', fontWeight: 400, color: grey[500] },
     button: {
       fontSize: '15px',
       fontWeight: 700,
