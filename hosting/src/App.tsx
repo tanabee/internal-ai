@@ -8,7 +8,6 @@ import { Navigate, Route, Routes } from 'react-router'
 
 export default function App() {
   const { user, initialized } = useAuth()
-  console.log({ user, initialized })
 
   if (!initialized) {
     return <Loading />

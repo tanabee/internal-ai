@@ -2,7 +2,7 @@ import { firebaseAuth } from '@genkit-ai/firebase/auth'
 import { onFlow } from '@genkit-ai/firebase/functions'
 import { vertexAI } from '@genkit-ai/vertexai'
 import { gemini15Flash } from '@genkit-ai/vertexai'
-import { genkit } from 'genkit'
+import { MessageSchema, genkit, z } from 'genkit'
 
 const ai = genkit({
   plugins: [
@@ -20,6 +20,8 @@ export const mainFlow = onFlow(
       //   throw new Error('Verified email required to run flow')
       // }
     }),
+    inputSchema: z.array(MessageSchema),
+    outputSchema: z.array(MessageSchema),
   },
   async (messages) => {
     console.log('messages', messages)
