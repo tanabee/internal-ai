@@ -2,7 +2,7 @@ import { firebaseAuth } from '@genkit-ai/firebase/auth'
 import { onFlow } from '@genkit-ai/firebase/functions'
 import { vertexAI } from '@genkit-ai/vertexai'
 import { gemini15Flash } from '@genkit-ai/vertexai'
-import { genkit, z } from 'genkit'
+import { genkit } from 'genkit'
 
 const ai = genkit({
   plugins: [

@@ -7,6 +7,7 @@ import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import Markdown from 'react-markdown'
 
 export default function Chat() {
   const { user } = useAuth()
@@ -117,9 +118,25 @@ export default function Chat() {
                 >
                   AI
                 </Avatar>
-                <Typography sx={{ mt: 0.5 }}>
-                  {message.content[0].text}
-                </Typography>
+                <Box
+                  sx={{
+                    width: '100%',
+                    mt: '-3px',
+                    '& p, & pre': {
+                      my: 1,
+                      wordBreak: 'break-word',
+                      overflowWrap: 'break-word',
+                      whiteSpace: 'pre-wrap',
+                    },
+                    '& code': {
+                      fontFamily: 'sans-serif',
+                    },
+                  }}
+                >
+                  <Markdown className="markdown">
+                    {message.content[0].text}
+                  </Markdown>
+                </Box>
               </Stack>
             )
           }
