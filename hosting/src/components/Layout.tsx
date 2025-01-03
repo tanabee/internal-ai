@@ -99,9 +99,18 @@ export default function ResponsiveDrawer() {
           </Typography>
           <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
             <Avatar
-              sx={{ width: 32, height: 32, bgcolor: 'grey.700' }}
+              sx={{
+                bgcolor: 'grey.300',
+                width: 32,
+                height: 32,
+                fontSize: 12,
+                fontWeight: 700,
+                mt: 1,
+              }}
               src={user?.photoURL ?? ''}
-            />
+            >
+              {user?.displayName?.charAt(0)}
+            </Avatar>
           </IconButton>
           <Popover
             anchorEl={anchorEl}
@@ -115,7 +124,7 @@ export default function ResponsiveDrawer() {
             <List>
               <ListItem disablePadding>
                 <ListItemButton onClick={() => signOut()}>
-                  <ListItemText primary="ログアウト" />
+                  <ListItemText primary="Logout" />
                 </ListItemButton>
               </ListItem>
             </List>
