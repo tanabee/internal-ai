@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"pnpm run emulator\" \"pnpm run build:watch\"",
+    "start": "concurrently \"pnpm run build:watch\" \"pnpm run genkit\" \"pnpm run emulator\"",
+    "genkit": "npx genkit start --port 1234 -- npx tsx watch functions/src/genkit/index.ts",
     "emulator": "firebase emulators:start --log-verbosity QUIET",
     "build:watch": "pnpm -r run build:watch",
-    "kill": "lsof -i:3000,4000,4400,5001,5050,8080,8085,9099,9199 -t | xargs kill"
+    "kill": "lsof -i:1234,3000,4000,4400,5001,5173,8080,9099 -t | xargs kill"
   },
   "keywords": [],
   "author": "",
