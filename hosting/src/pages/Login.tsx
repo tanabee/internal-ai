@@ -1,4 +1,5 @@
 import GoogleIcon from '@/assets/GoogleIcon'
+import ErrorDialog from '@/components/ErrorDialog'
 import { signInWithGoogle } from '@/lib/Auth'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -43,7 +44,9 @@ export default function Login() {
           Sign in with Google
         </Button>
       </Box>
-      {error && <Typography variant="body1">{error.message}</Typography>}
+      {error && (
+        <ErrorDialog message={error.message} onClose={() => setError(null)} />
+      )}
     </Stack>
   )
 }
