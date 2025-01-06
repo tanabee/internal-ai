@@ -1,10 +1,7 @@
 import type { ReactNode } from 'react'
 
 import CssBaseline from '@mui/material/CssBaseline'
-import {
-  ThemeProvider as MuiThemeProvider,
-  createTheme,
-} from '@mui/material/styles'
+import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles'
 
 const grey = {
   300: '#B2BAC7',

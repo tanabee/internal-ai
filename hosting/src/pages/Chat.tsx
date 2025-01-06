@@ -1,6 +1,6 @@
 import { Form, SubmitButton, TextField } from '@/components/Form'
 import { useAuth } from '@/lib/Auth'
-import { httpsCallable } from '@/lib/functions'
+import { addDoc, generateId, orderBy, setDoc, useDocs } from '@/lib/firestore'
 import SendIcon from '@mui/icons-material/SendOutlined'
 import { Avatar, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
@@ -8,31 +8,61 @@ import Stack from '@mui/material/Stack'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Markdown from 'react-markdown'
+import { useNavigate, useParams } from 'react-router'
+
+type Message = {
+  message: {
+    role: string
+    content: { text: string }[]
+  }
+  createdAt: string
+}
 
 export default function Chat() {
+  const [messageCount, setMessageCount] = useState(0)
   const { user } = useAuth()
+  const { threadId } = useParams()
+  const navigate = useNavigate()
+  const { items: messages } = useDocs(
+    `users/${user?.uid}/threads/${threadId}/messages`,
+    orderBy('createdAt', 'asc'),
+  )
   const form = useForm()
-  const [messages, setMessages] = useState<Record<string, any>[]>([])
+  const text = form.watch('text') || ''
 
   useEffect(() => {
-    const chatBottom = document.getElementById('chat-bottom')
-    chatBottom?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
+    if (messages.length - messageCount === 1) {
+      const chatBottom = document.getElementById('chat-bottom')
+      chatBottom?.scrollIntoView({ behavior: 'smooth' })
+    }
+    setMessageCount(messages.length)
+  }, [messages, messageCount])
 
   const handleSubmit = async (values: Record<string, any>) => {
     form.setValue('text', '')
     const newMessage = { role: 'user', content: [{ text: values.text }] }
-    const newMessages = [...messages, newMessage]
-    setMessages(newMessages)
-    return await httpsCallable('mainFlow')(newMessages).then((res) =>
-      setMessages(res.data as Record<string, any>[]),
-    )
+    const newThreadId = threadId ?? generateId(`users/${user?.uid}/threads`)
+    if (!threadId) {
+      await setDoc(`users/${user?.uid}/threads/${newThreadId}`, {
+        title: null,
+        createdBy: user?.uid,
+        favorite: false,
+      })
+    }
+
+    await addDoc(`users/${user?.uid}/threads/${newThreadId}/messages`, { message: newMessage })
+
+    if (!threadId) {
+      navigate(`/chat/${newThreadId}`)
+    }
   }
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter' && event.shiftKey) {
       event.preventDefault()
-      form.handleSubmit(handleSubmit)()
+      if (text.length > 0) {
+        form.handleSubmit(handleSubmit)()
+      }
     }
   }
 
@@ -57,8 +87,8 @@ export default function Chat() {
         }}
         gap={2}
       >
-        {messages.map((message, index) => {
-          if (message.role === 'user') {
+        {messages.map((item: Message, index: number) => {
+          if (item.message.role === 'user') {
             return (
               <Stack
                 key={index}
@@ -78,7 +108,7 @@ export default function Chat() {
                     maxWidth: '70%',
                   }}
                 >
-                  {message.content[0].text}
+                  {item.message.content[0].text}
                 </Typography>
                 <Avatar
                   sx={{
@@ -133,9 +163,7 @@ export default function Chat() {
                     },
                   }}
                 >
-                  <Markdown className="markdown">
-                    {message.content[0].text}
-                  </Markdown>
+                  <Markdown className="markdown">{item.message.content[0].text}</Markdown>
                 </Box>
               </Stack>
             )
@@ -168,6 +196,7 @@ export default function Chat() {
               }}
             />
             <SubmitButton
+              disabled={text.length === 0}
               startIcon={<SendIcon sx={{ color: 'grey.700' }} />}
               variant="contained"
             >

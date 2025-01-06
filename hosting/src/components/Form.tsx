@@ -1,9 +1,4 @@
-import {
-  FormProvider,
-  type UseFormReturn,
-  useController,
-  useFormContext,
-} from 'react-hook-form'
+import { FormProvider, type UseFormReturn, useController, useFormContext } from 'react-hook-form'
 
 import type { StandardTextFieldProps } from '@mui/material/TextField'
 import MuiTextField from '@mui/material/TextField'
@@ -29,11 +24,7 @@ export function Form({
 }) {
   return (
     <FormProvider {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        autoComplete="off"
-        noValidate
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} autoComplete="off" noValidate>
         {children}
       </form>
     </FormProvider>
@@ -54,10 +45,7 @@ export function TextField({ name, rules, ...props }: MyTextFieldProps) {
   )
 }
 
-export function SubmitButton({
-  children,
-  ...props
-}: { children: React.ReactNode } & ButtonProps) {
+export function SubmitButton({ children, ...props }: { children: React.ReactNode } & ButtonProps) {
   const { formState } = useFormContext()
   props.disabled = props.disabled || formState.isSubmitting
   return (

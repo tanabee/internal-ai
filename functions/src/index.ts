@@ -5,5 +5,4 @@ initializeApp()
 setGlobalOptions({ region: 'asia-northeast1' })
 
 export * from './auth'
-export * from './genkit'
-export * from './http/sample'
+export * from './firestore'

@@ -13,7 +13,7 @@
     "enabled": true,
     "indentWidth": 2,
     "indentStyle": "space",
-    "lineWidth": 80
+    "lineWidth": 100
   },
   "organizeImports": {
     "enabled": true
@@ -35,7 +35,8 @@
       },
       "style": {
         "noParameterAssign": "off",
-        "noUselessElse": "off"
+        "noUselessElse": "off",
+        "noUnusedTemplateLiteral": "off"
       }
     }
   },

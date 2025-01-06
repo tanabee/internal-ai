@@ -15,17 +15,24 @@ import Popover from '@mui/material/Popover'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import { useState } from 'react'
-import { Outlet } from 'react-router'
+import { Outlet, useNavigate, useParams } from 'react-router'
 
 import Logo from '@/assets/Logo.tsx'
+import type { Thread } from '@/entities/thread'
 import { signOut, useAuth } from '@/lib/Auth'
+import { orderBy, useDocs } from '@/lib/firestore'
 const drawerWidth = 320
 
 export default function ResponsiveDrawer() {
+  const navigate = useNavigate()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
+  const { threadId } = useParams()
   const { user } = useAuth()
+  const uid = user?.uid || ''
+  const { items } = useDocs(`users/${uid}/threads`, orderBy('updatedAt', 'desc'))
+  const thread = items.find((item: Thread) => item.id === threadId) as Thread | undefined
 
   const handleDrawerClose = () => {
     setIsClosing(true)
@@ -57,13 +64,20 @@ export default function ResponsiveDrawer() {
       </Box>
       <List>
         <ListItem>
-          <ListItemButton sx={{ height: 56, borderRadius: 2 }}>
+          <ListItemButton sx={{ height: 56, borderRadius: 2 }} onClick={() => navigate('/chat')}>
             <ListItemIcon>
               <AddIcon />
             </ListItemIcon>
             <ListItemText primary="New chat" />
           </ListItemButton>
         </ListItem>
+        {items.map((item: Thread) => (
+          <ListItem key={item.id}>
+            <ListItemButton sx={{ borderRadius: 2 }} onClick={() => navigate(`/chat/${item.id}`)}>
+              <ListItemText primary={item.title || 'New chat'} />
+            </ListItemButton>
+          </ListItem>
+        ))}
       </List>
     </div>
   )
@@ -89,13 +103,8 @@ export default function ResponsiveDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h2"
-            noWrap
-            component="div"
-            sx={{ pl: 1, flex: 1 }}
-          >
-            New Chat
+          <Typography variant="h2" noWrap component="div" sx={{ pl: 1, flex: 1 }}>
+            {thread?.title || 'New Chat'}
           </Typography>
           <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
             <Avatar

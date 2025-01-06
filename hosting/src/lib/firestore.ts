@@ -63,25 +63,16 @@ const parseDoc = (doc: DocumentSnapshot) => {
 
 export const addDoc = (path: string, data: object) => {
   const createdAt = serverTimestamp()
-  return _addDoc(
-    collection(db, path),
-    format({ ...data, createdAt, updatedAt: createdAt }),
-  )
+  return _addDoc(collection(db, path), format({ ...data, createdAt, updatedAt: createdAt }))
 }
 
 export const setDoc = (path: string, data: object) => {
   const createdAt = serverTimestamp()
-  return _setDoc(
-    doc(db, path),
-    format({ ...data, createdAt, updatedAt: createdAt }),
-  )
+  return _setDoc(doc(db, path), format({ ...data, createdAt, updatedAt: createdAt }))
 }
 
 export const updateDoc = (path: string, data: object) => {
-  return _updateDoc(
-    doc(db, path),
-    format({ ...data, updatedAt: serverTimestamp() }),
-  )
+  return _updateDoc(doc(db, path), format({ ...data, updatedAt: serverTimestamp() }))
 }
 
 export const deleteDoc = (path: string) => {
@@ -93,9 +84,7 @@ export const getDoc = (path: string) => {
 }
 
 export const getDocs = (path: string, ...conditions: any[]) => {
-  return _getDocs(query(collection(db, path), ...conditions)).then(({ docs }) =>
-    docs.map(parseDoc),
-  )
+  return _getDocs(query(collection(db, path), ...conditions)).then(({ docs }) => docs.map(parseDoc))
 }
 
 const validateDocPath = (path: string) => {
@@ -124,13 +113,10 @@ export const useDocs = (path: string, ...conditions: any[]) => {
   const [items, setItems] = useState([])
 
   useEffect(() => {
-    return onSnapshot(
-      query(collection(db, path), ...conditions),
-      ({ docs }) => {
-        setItems(docs.map(parseDoc))
-      },
-    )
-  }, [])
+    return onSnapshot(query(collection(db, path), ...conditions), ({ docs }) => {
+      setItems(docs.map(parseDoc))
+    })
+  }, [path])
 
   return { items }
 }
@@ -140,6 +126,10 @@ export const where = (field: string, operator: any, value: any) => {
     value = Timestamp.fromDate(value)
   }
   return _where(field, operator, value)
+}
+
+export const generateId = (path: string) => {
+  return doc(collection(db, path)).id
 }
 
 export { orderBy, limit, serverTimestamp }

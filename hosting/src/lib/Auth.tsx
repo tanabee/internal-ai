@@ -1,12 +1,6 @@
 'use client'
 
-import {
-  type ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import { type ReactNode, createContext, useContext, useEffect, useState } from 'react'
 
 import {
   GoogleAuthProvider,
@@ -45,18 +39,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (user) {
-      user
-        .getIdTokenResult(true)
-        .then(({ claims }) => setData({ claims, initialized, user }))
+      user.getIdTokenResult(true).then(({ claims }) => setData({ claims, initialized, user }))
     }
   }, [user])
 
-  return (
-    <AuthContext.Provider
-      value={{ claims, initialized, user }}
-      children={children}
-    />
-  )
+  return <AuthContext.Provider value={{ claims, initialized, user }} children={children} />
 }
 
 export const useAuth = () => {

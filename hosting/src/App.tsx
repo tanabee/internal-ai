@@ -28,11 +28,11 @@ export default function App() {
     <Routes>
       <Route path="*" element={<Layout />}>
         <Route path="chat">
-          <Route index element={<Chat />} />
-          <Route path=":id" element={<Chat />} />
+          <Route path=":threadId" element={<Chat />} />
           <Route path="new" element={<Chat />} />
+          <Route path="*" element={<Navigate to="./new" replace />} />
         </Route>
-        <Route path="*" element={<Navigate to="/chat" replace />} />
+        <Route path="*" element={<Navigate to="/chat/new" replace />} />
       </Route>
     </Routes>
   )
