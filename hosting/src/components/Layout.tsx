@@ -64,7 +64,11 @@ export default function ResponsiveDrawer() {
       </Box>
       <List>
         <ListItem>
-          <ListItemButton sx={{ height: 56, borderRadius: 2 }} onClick={() => navigate('/chat')}>
+          <ListItemButton
+            sx={{ height: 56, borderRadius: 2 }}
+            onClick={() => navigate('/chat')}
+            disabled={!threadId}
+          >
             <ListItemIcon>
               <AddIcon />
             </ListItemIcon>

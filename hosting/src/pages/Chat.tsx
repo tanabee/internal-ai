@@ -99,7 +99,7 @@ export default function Chat() {
                   justifyContent: 'flex-end',
                 }}
               >
-                <Typography
+                <Box
                   sx={{
                     px: 3,
                     py: 1.5,
@@ -108,8 +108,13 @@ export default function Chat() {
                     maxWidth: '70%',
                   }}
                 >
-                  {item.message.content[0].text}
-                </Typography>
+                  {item.message.content[0].text.split('\n').map((line, index) => (
+                    <Box key={index}>
+                      <Typography component="span">{line}</Typography>
+                      <br />
+                    </Box>
+                  ))}
+                </Box>
                 <Avatar
                   sx={{
                     bgcolor: 'grey.300',
