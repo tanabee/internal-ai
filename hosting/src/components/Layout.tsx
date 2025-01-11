@@ -14,13 +14,13 @@ import ListItemText from '@mui/material/ListItemText'
 import Popover from '@mui/material/Popover'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router'
 
 import Logo from '@/assets/Logo.tsx'
 import type { Thread } from '@/entities/thread'
 import { signOut, useAuth } from '@/lib/Auth'
-import { orderBy, useDocs } from '@/lib/firestore'
+import { getDoc, orderBy, useDocs } from '@/lib/firestore'
 const drawerWidth = 320
 
 export default function ResponsiveDrawer() {
@@ -33,6 +33,12 @@ export default function ResponsiveDrawer() {
   const uid = user?.uid || ''
   const { items } = useDocs(`users/${uid}/threads`, orderBy('updatedAt', 'desc'))
   const thread = items.find((item: Thread) => item.id === threadId) as Thread | undefined
+
+  useEffect(() => {
+    if (threadId) {
+      getDoc(`users/${uid}/threads/${threadId}`).catch(() => navigate('/chat/new'))
+    }
+  }, [threadId, navigate, uid])
 
   const handleDrawerClose = () => {
     setIsClosing(true)
@@ -118,7 +124,6 @@ export default function ResponsiveDrawer() {
                 height: 32,
                 fontSize: 12,
                 fontWeight: 700,
-                mt: 1,
               }}
               src={user?.photoURL ?? ''}
             >
