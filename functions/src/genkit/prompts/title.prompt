@@ -1,0 +1,5 @@
+Generate a title for the chat in under 50 characters.
+Return the output as a single line, just the title, no other text.
+
+## Chat Message
+{{message}}
