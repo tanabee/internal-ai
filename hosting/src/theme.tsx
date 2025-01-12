@@ -23,15 +23,16 @@ const theme = createTheme({
       paper: grey[800],
     },
     text: {
-      primary: grey[500],
-      secondary: grey[400],
+      primary: '#f5f5f5',
+      secondary: '#bdbdbd',
     },
   },
   spacing: 8,
   typography: {
-    h1: { fontSize: '32px', fontWeight: 700, color: '#fff' },
-    h2: { fontSize: '20px', fontWeight: 500, color: grey[500] },
-    body1: { fontSize: '16px', fontWeight: 400, color: grey[500] },
+    h1: { fontSize: '32px', fontWeight: 700 },
+    h2: { fontSize: '20px', fontWeight: 500 },
+    body1: { fontSize: '16px', fontWeight: 400 },
+    body2: { fontSize: '14px', fontWeight: 400 },
     button: {
       fontSize: '15px',
       fontWeight: 700,

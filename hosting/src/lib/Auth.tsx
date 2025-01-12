@@ -4,46 +4,40 @@ import { type ReactNode, createContext, useContext, useEffect, useState } from '
 
 import {
   GoogleAuthProvider,
-  type User,
   signOut as _signOut,
   onAuthStateChanged,
   signInWithPopup,
 } from 'firebase/auth'
 
 import { auth } from './firebase'
+import { getDoc } from './firestore'
 
 type AuthContextType = {
-  user: User | null
-  claims: any | null
+  user: Record<string, any> | null
   initialized: boolean
 }
 
-const AuthContext = createContext<AuthContextType>({
-  claims: null,
-  initialized: false,
-  user: null,
-})
+const AuthContext = createContext<AuthContextType>({ initialized: false, user: null })
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [{ user, claims, initialized }, setData] = useState<AuthContextType>({
-    claims: null,
+  const [{ user, initialized }, setData] = useState<AuthContextType>({
     initialized: false,
     user: null,
   })
 
   useEffect(() => {
     return onAuthStateChanged(auth, (user) => {
-      setData({ claims: null, initialized: true, user })
+      if (user) {
+        getDoc(`users/${user.uid}`).then((user) => {
+          setData({ user, initialized: true })
+        })
+      } else {
+        setData({ user: null, initialized: true })
+      }
     })
   }, [])
 
-  useEffect(() => {
-    if (user) {
-      user.getIdTokenResult(true).then(({ claims }) => setData({ claims, initialized, user }))
-    }
-  }, [user])
-
-  return <AuthContext.Provider value={{ claims, initialized, user }} children={children} />
+  return <AuthContext.Provider value={{ initialized, user }} children={children} />
 }
 
 export const useAuth = () => {

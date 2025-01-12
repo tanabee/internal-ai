@@ -24,7 +24,7 @@ export default function Chat() {
   const { threadId } = useParams()
   const navigate = useNavigate()
   const { items: messages } = useDocs(
-    `users/${user?.uid}/threads/${threadId}/messages`,
+    `users/${user?.id}/threads/${threadId}/messages`,
     orderBy('createdAt', 'asc'),
   )
   const form = useForm()

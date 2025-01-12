@@ -1,4 +1,3 @@
-import AddIcon from '@mui/icons-material/Add'
 import MenuIcon from '@mui/icons-material/Menu'
 import AppBar from '@mui/material/AppBar'
 import Avatar from '@mui/material/Avatar'
@@ -9,18 +8,15 @@ import IconButton from '@mui/material/IconButton'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Popover from '@mui/material/Popover'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import { useEffect, useState } from 'react'
-import { Outlet, useNavigate, useParams } from 'react-router'
+import { useState } from 'react'
+import { Outlet, useNavigate } from 'react-router'
 
 import Logo from '@/assets/Logo.tsx'
-import type { Thread } from '@/entities/thread'
 import { signOut, useAuth } from '@/lib/Auth'
-import { getDoc, orderBy, useDocs } from '@/lib/firestore'
 const drawerWidth = 320
 
 export default function ResponsiveDrawer() {
@@ -28,17 +24,7 @@ export default function ResponsiveDrawer() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
-  const { threadId } = useParams()
   const { user } = useAuth()
-  const { items } = useDocs(`users/${user?.id}/threads`, orderBy('updatedAt', 'desc'))
-  const thread = items.find((item: Thread) => item.id === threadId) as Thread | undefined
-
-  useEffect(() => {
-    if (threadId) {
-      // Redirect to /chat/new if thread doesn't exist
-      getDoc(`users/${user?.id}/threads/${threadId}`).catch(() => navigate('/chat/new'))
-    }
-  }, [threadId, navigate, user?.id])
 
   const handleDrawerClose = () => {
     setIsClosing(true)
@@ -71,23 +57,13 @@ export default function ResponsiveDrawer() {
       <List>
         <ListItem>
           <ListItemButton
-            sx={{ height: 56, borderRadius: 2 }}
-            onClick={() => navigate('/chat')}
-            disabled={!threadId}
+            sx={{ borderRadius: '24px', height: 48 }}
+            onClick={() => navigate(`/admin/users`)}
+            selected={location.pathname === '/admin/users'}
           >
-            <ListItemIcon>
-              <AddIcon />
-            </ListItemIcon>
-            <ListItemText primary="New chat" />
+            <Typography sx={{ fontSize: 12 }}>Users</Typography>
           </ListItemButton>
         </ListItem>
-        {items.map((item: Thread) => (
-          <ListItem key={item.id}>
-            <ListItemButton sx={{ borderRadius: 2 }} onClick={() => navigate(`/chat/${item.id}`)}>
-              <ListItemText primary={item.title || 'New chat'} />
-            </ListItemButton>
-          </ListItem>
-        ))}
       </List>
     </div>
   )
@@ -114,7 +90,7 @@ export default function ResponsiveDrawer() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h2" noWrap component="div" sx={{ pl: 1, flex: 1 }}>
-            {thread?.title || 'New Chat'}
+            Users
           </Typography>
           <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
             <Avatar
@@ -140,13 +116,11 @@ export default function ResponsiveDrawer() {
             sx={{ '.MuiPaper-root': { border: 1, borderColor: 'grey.700' } }}
           >
             <List>
-              {user?.role === 'admin' && (
-                <ListItem disablePadding>
-                  <ListItemButton onClick={() => navigate('/admin')}>
-                    <ListItemText primary="Admin" />
-                  </ListItemButton>
-                </ListItem>
-              )}
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => navigate('/chat')}>
+                  <ListItemText primary="Chat" />
+                </ListItemButton>
+              </ListItem>
               <ListItem disablePadding>
                 <ListItemButton onClick={() => signOut()}>
                   <ListItemText primary="Logout" />

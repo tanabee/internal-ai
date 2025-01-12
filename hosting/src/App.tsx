@@ -1,9 +1,11 @@
+import AdminLayout from '@/components/AdminLayout'
 import AuthLayout from '@/components/AuthLayout'
 import Layout from '@/components/Layout'
 import Loading from '@/components/Loading'
 import { useAuth } from '@/lib/Auth'
 import Chat from '@/pages/Chat'
 import Login from '@/pages/Login'
+import UserList from '@/pages/admin/UserList'
 import { Navigate, Route, Routes } from 'react-router'
 
 export default function App() {
@@ -26,12 +28,18 @@ export default function App() {
 
   return (
     <Routes>
-      <Route path="*" element={<Layout />}>
-        <Route path="chat">
+      <Route path="*">
+        <Route path="chat" element={<Layout />}>
           <Route path=":threadId" element={<Chat />} />
           <Route path="new" element={<Chat />} />
           <Route path="*" element={<Navigate to="./new" replace />} />
         </Route>
+        {user?.role === 'admin' && (
+          <Route path="admin" element={<AdminLayout />}>
+            <Route path="users" element={<UserList />} />
+            <Route path="*" element={<Navigate to="./users" replace />} />
+          </Route>
+        )}
         <Route path="*" element={<Navigate to="/chat/new" replace />} />
       </Route>
     </Routes>

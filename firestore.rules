@@ -10,12 +10,13 @@ service cloud.firestore {
     }
 
     match /users/{uid} {
-      allow read: if isUser();
+      allow read: if request.auth.uid == uid || isAdmin();
+      allow write: if isAdmin();
 
       match /threads/{threadId} {
         allow read, write: if request.auth.uid == uid;
 
-        match /messages/{messages} {
+        match /messages/{messageId} {
           allow read, write: if request.auth.uid == uid;
         }
       }
