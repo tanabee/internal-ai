@@ -41,16 +41,16 @@ export default function Chat() {
   const handleSubmit = async (values: Record<string, any>) => {
     form.setValue('text', '')
     const newMessage = { role: 'user', content: [{ text: values.text }] }
-    const newThreadId = threadId ?? generateId(`users/${user?.uid}/threads`)
+    const newThreadId = threadId ?? generateId(`users/${user?.id}/threads`)
     if (!threadId) {
-      await setDoc(`users/${user?.uid}/threads/${newThreadId}`, {
+      await setDoc(`users/${user?.id}/threads/${newThreadId}`, {
         title: null,
-        createdBy: user?.uid,
+        createdBy: user?.id,
         favorite: false,
       })
     }
 
-    await addDoc(`users/${user?.uid}/threads/${newThreadId}/messages`, { message: newMessage })
+    await addDoc(`users/${user?.id}/threads/${newThreadId}/messages`, { message: newMessage })
 
     if (!threadId) {
       navigate(`/chat/${newThreadId}`)

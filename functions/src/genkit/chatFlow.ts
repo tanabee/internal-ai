@@ -1,3 +1,4 @@
+import { enableFirebaseTelemetry } from '@genkit-ai/firebase'
 import { gemini15Flash, vertexAI } from '@genkit-ai/vertexai'
 import * as cheerio from 'cheerio'
 import { MessageSchema, genkit, z } from 'genkit'
@@ -11,6 +12,8 @@ const ai = genkit({
   ],
   model: gemini15Flash,
 })
+
+enableFirebaseTelemetry()
 
 const webLoader = ai.defineTool(
   {

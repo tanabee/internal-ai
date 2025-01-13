@@ -26,9 +26,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   })
 
   useEffect(() => {
-    return onAuthStateChanged(auth, (user) => {
-      if (user) {
-        getDoc(`users/${user.uid}`).then((user) => {
+    return onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        getDoc(`users/${firebaseUser.uid}`).then((user) => {
           setData({ user, initialized: true })
         })
       } else {
