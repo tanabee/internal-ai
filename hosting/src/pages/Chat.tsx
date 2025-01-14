@@ -2,7 +2,7 @@ import { Form, SubmitButton, TextField } from '@/components/Form'
 import { useAuth } from '@/lib/Auth'
 import { addDoc, generateId, orderBy, setDoc, useDocs } from '@/lib/firestore'
 import SendIcon from '@mui/icons-material/SendOutlined'
-import { Avatar, Typography } from '@mui/material'
+import { Avatar, Skeleton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import { useEffect, useState } from 'react'
@@ -168,7 +168,15 @@ export default function Chat() {
                     },
                   }}
                 >
-                  <Markdown className="markdown">{item.message.content[0].text}</Markdown>
+                  {item.message.content[0].text !== '' ? (
+                    <Markdown className="markdown">{item.message.content[0].text}</Markdown>
+                  ) : (
+                    <Box>
+                      <Skeleton />
+                      <Skeleton />
+                      <Skeleton />
+                    </Box>
+                  )}
                 </Box>
               </Stack>
             )

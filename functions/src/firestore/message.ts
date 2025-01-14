@@ -30,26 +30,32 @@ export const onmessagecreated = onDocumentCreated(
         res.docs.map((doc: QueryDocumentSnapshot) => doc.data().message),
       )
 
-    console.log('messages', messages)
-
-    const threadDocRef = db.doc(`users/${uid}/threads/${threadId}`)
-    if (messages.length === 1) {
-      console.log('messages.length === 1')
-      const title = await titleFlow(messages[0].content[0].text ?? '')
-      await threadDocRef.update({ title, updatedAt: now })
-    } else {
-      console.log('messages.length !== 1')
-      await threadDocRef.update({ updatedAt: now })
-    }
-    console.log('chatFlow')
-
-    const newMessages = await chatFlow(messages)
-    console.log('chatFlow done')
-    console.log(JSON.stringify(newMessages, null, 2))
-    await db.collection(`users/${uid}/threads/${threadId}/messages`).add({
-      message: newMessages.at(-1),
+    const newMessageId = db.collection(`users/${uid}/threads/${threadId}/messages`).doc().id
+    await db.doc(`users/${uid}/threads/${threadId}/messages/${newMessageId}`).set({
+      message: {
+        role: 'model',
+        content: [{ type: 'text', text: '' }],
+      },
       createdAt: now,
     })
-    console.log('add message done')
+
+    await Promise.all([
+      (async () => {
+        const threadDocRef = db.doc(`users/${uid}/threads/${threadId}`)
+        if (messages.length === 1) {
+          const title = await titleFlow(messages[0].content[0].text ?? '')
+          await threadDocRef.update({ title, updatedAt: now })
+        } else {
+          await threadDocRef.update({ updatedAt: now })
+        }
+      })(),
+      (async () => {
+        const newMessages = await chatFlow(messages)
+        await db.doc(`users/${uid}/threads/${threadId}/messages/${newMessageId}`).set({
+          message: newMessages.at(-1),
+          createdAt: now,
+        })
+      })(),
+    ])
   },
 )

@@ -92,7 +92,7 @@ export default function ResponsiveDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h2" noWrap component="div" sx={{ pl: 1, flex: 1 }}>
+          <Typography noWrap component="div" sx={{ flex: 1 }}>
             Users
           </Typography>
           <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
