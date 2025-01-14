@@ -3,10 +3,10 @@ import { HttpsError, beforeUserCreated } from 'firebase-functions/identity'
 const db = getFirestore()
 
 export const beforeusercreated = beforeUserCreated(async (event) => {
-  console.log('beforeUserCreated')
-
   const user = event.data
-  console.log(user)
+  console.log('user', user)
+
+  if (!user) return
 
   // TODO: Replace with your company domain
   const domain = '@tanabee.dev'
@@ -14,7 +14,7 @@ export const beforeusercreated = beforeUserCreated(async (event) => {
     throw new HttpsError('permission-denied', 'Unauthorized email')
   }
 
-  db.doc(`users/${user.uid}`).set({
+  await db.doc(`users/${user.uid}`).set({
     email: user.email,
     role: 'user',
     displayName: user.displayName || null,

@@ -1,4 +1,3 @@
-import { enableFirebaseTelemetry } from '@genkit-ai/firebase'
 import { gemini15Flash, vertexAI } from '@genkit-ai/vertexai'
 import { genkit, z } from 'genkit'
 
@@ -12,8 +11,6 @@ const ai = genkit({
   ],
   model: gemini15Flash,
 })
-
-enableFirebaseTelemetry()
 
 export const titleFlow = ai.defineFlow(
   {

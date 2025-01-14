@@ -12,7 +12,6 @@ const db = getFirestore()
 export const onmessagecreated = onDocumentCreated(
   { document: 'users/{uid}/threads/{threadId}/messages/{messageId}' },
   async (event) => {
-    console.log('onMessageCreated')
     const { uid, threadId } = event.params
     const now = Timestamp.now()
 
@@ -20,8 +19,6 @@ export const onmessagecreated = onDocumentCreated(
     if (!snapshot) return
 
     const item = snapshot.data()
-    console.log(item)
-
     if (item.message.role !== 'user') return
 
     const messages = await db
@@ -32,6 +29,8 @@ export const onmessagecreated = onDocumentCreated(
       .then((res: QuerySnapshot) =>
         res.docs.map((doc: QueryDocumentSnapshot) => doc.data().message),
       )
+
+    console.log('messages', messages)
 
     const threadDocRef = db.doc(`users/${uid}/threads/${threadId}`)
     if (messages.length === 1) {
