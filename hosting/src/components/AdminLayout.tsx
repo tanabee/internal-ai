@@ -50,9 +50,12 @@ export default function ResponsiveDrawer() {
           p: 2,
           height: 64,
           mb: 4,
+          '& a': { height: 40 },
         }}
       >
-        <Logo />
+        <a href="/admin/users">
+          <Logo />
+        </a>
       </Box>
       <List>
         <ListItem>

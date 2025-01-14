@@ -41,6 +41,15 @@ const theme = createTheme({
     },
     caption: { fontSize: '12px', color: grey[400] },
   },
+  components: {
+    MuiToolbar: {
+      styleOverrides: {
+        root: {
+          padding: '0 16px !important',
+        },
+      },
+    },
+  },
 })
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {

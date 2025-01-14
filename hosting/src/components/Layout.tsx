@@ -3,6 +3,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import AppBar from '@mui/material/AppBar'
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
 import Drawer from '@mui/material/Drawer'
 import IconButton from '@mui/material/IconButton'
@@ -64,27 +65,35 @@ export default function ResponsiveDrawer() {
           p: 2,
           height: 64,
           mb: 4,
+          '& a': { height: 40 },
         }}
       >
-        <Logo />
+        <a href="/chat/new">
+          <Logo />
+        </a>
       </Box>
+
+      <Box sx={{ height: 56, pt: 1, pl: 1.5 }}>
+        <Button
+          startIcon={<AddIcon sx={{ height: 16, width: 16 }} />}
+          variant="text"
+          onClick={() => navigate('/chat/new')}
+          sx={{ py: 1, pl: 1.5, pr: 2, fontSize: 14, fontWeight: 'normal', borderRadius: 100 }}
+          disabled={!threadId}
+        >
+          New chat
+        </Button>
+      </Box>
+
       <List>
-        <ListItem>
-          <ListItemButton
-            sx={{ height: 56, borderRadius: 2 }}
-            onClick={() => navigate('/chat')}
-            disabled={!threadId}
-          >
-            <ListItemIcon>
-              <AddIcon />
-            </ListItemIcon>
-            <ListItemText primary="New chat" />
-          </ListItemButton>
-        </ListItem>
         {items.map((item: Thread) => (
-          <ListItem key={item.id}>
-            <ListItemButton sx={{ borderRadius: 2 }} onClick={() => navigate(`/chat/${item.id}`)}>
-              <ListItemText primary={item.title || 'New chat'} />
+          <ListItem key={item.id} sx={{ px: 1, py: 0.5 }}>
+            <ListItemButton
+              sx={{ borderRadius: 100, height: 48 }}
+              onClick={() => navigate(`/chat/${item.id}`)}
+              selected={item.id === threadId}
+            >
+              <Typography sx={{ fontSize: 12 }}>{item.title || 'New chat'}</Typography>
             </ListItemButton>
           </ListItem>
         ))}
@@ -103,7 +112,7 @@ export default function ResponsiveDrawer() {
           ml: { sm: `${drawerWidth}px` },
         }}
       >
-        <Toolbar sx={{ px: 1, bgcolor: 'background.default' }}>
+        <Toolbar sx={{ bgcolor: 'background.default' }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -113,8 +122,8 @@ export default function ResponsiveDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h2" noWrap component="div" sx={{ pl: 1, flex: 1 }}>
-            {thread?.title || 'New Chat'}
+          <Typography noWrap component="div" sx={{ flex: 1 }}>
+            {thread?.title || 'New chat'}
           </Typography>
           <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
             <Avatar

@@ -182,7 +182,8 @@ export default function Chat() {
           bgcolor: 'grey.800',
           borderRadius: 6,
           py: 2,
-          px: 4,
+          pl: 3,
+          pr: 2,
         }}
       >
         <Form form={form} onSubmit={handleSubmit}>
@@ -202,8 +203,10 @@ export default function Chat() {
             />
             <SubmitButton
               disabled={text.length === 0}
-              startIcon={<SendIcon sx={{ color: 'grey.700' }} />}
+              startIcon={<SendIcon sx={{ color: 'grey.700', height: 16, width: 16 }} />}
               variant="contained"
+              sx={{ pl: '16px', pr: '12px', py: '9px', borderRadius: '8px', fontWeight: 'normal' }}
+              size="small"
             >
               Send
             </SubmitButton>
