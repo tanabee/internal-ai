@@ -1,12 +1,15 @@
-import { Form, SubmitButton, TextField } from '@/components/Form'
+import Button from '@/components/Button'
 import { useAuth } from '@/lib/Auth'
 import { addDoc, generateId, orderBy, setDoc, useDocs } from '@/lib/firestore'
 import SendIcon from '@mui/icons-material/SendOutlined'
-import { Avatar, Skeleton, Typography } from '@mui/material'
+import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
+import Skeleton from '@mui/material/Skeleton'
 import Stack from '@mui/material/Stack'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
 import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import Markdown from 'react-markdown'
 import { useNavigate, useParams } from 'react-router'
 
@@ -27,8 +30,14 @@ export default function Chat() {
     `users/${user?.id}/threads/${threadId}/messages`,
     orderBy('createdAt', 'asc'),
   )
-  const form = useForm()
-  const text = form.watch('text') || ''
+  const {
+    control,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { isSubmitting },
+  } = useForm()
+  const text = watch('text') || ''
 
   useEffect(() => {
     if (messages.length - messageCount === 1) {
@@ -38,8 +47,8 @@ export default function Chat() {
     setMessageCount(messages.length)
   }, [messages, messageCount])
 
-  const handleSubmit = async (values: Record<string, any>) => {
-    form.setValue('text', '')
+  const onSubmit = async (values: Record<string, any>) => {
+    setValue('text', '')
     const newMessage = { role: 'user', content: [{ text: values.text }] }
     const newThreadId = threadId ?? generateId(`users/${user?.id}/threads`)
     if (!threadId) {
@@ -61,7 +70,7 @@ export default function Chat() {
     if (event.key === 'Enter' && event.shiftKey) {
       event.preventDefault()
       if (text.length > 0) {
-        form.handleSubmit(handleSubmit)()
+        handleSubmit(onSubmit)()
       }
     }
   }
@@ -194,32 +203,40 @@ export default function Chat() {
           pr: 2,
         }}
       >
-        <Form form={form} onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" noValidate>
           <Stack direction="row" alignItems="end" gap={2}>
-            <TextField
+            <Controller
               name="text"
-              variant="standard"
-              multiline
-              sx={{ flex: 1, py: '5px' }}
-              placeholder="Ask a question"
-              slotProps={{
-                input: {
-                  disableUnderline: true,
-                  onKeyDown: handleKeyDown,
-                },
-              }}
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  variant="standard"
+                  multiline
+                  sx={{ flex: 1, py: '5px' }}
+                  placeholder="Ask a question"
+                  slotProps={{
+                    input: {
+                      disableUnderline: true,
+                      onKeyDown: handleKeyDown,
+                    },
+                  }}
+                />
+              )}
             />
-            <SubmitButton
+            <Button
               disabled={text.length === 0}
+              loading={isSubmitting}
               startIcon={<SendIcon sx={{ color: 'grey.700', height: 16, width: 16 }} />}
               variant="contained"
               sx={{ pl: '16px', pr: '12px', py: '9px', borderRadius: '8px', fontWeight: 'normal' }}
               size="small"
             >
               Send
-            </SubmitButton>
+            </Button>
           </Stack>
-        </Form>
+        </form>
       </Box>
     </Box>
   )

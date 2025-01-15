@@ -36,7 +36,8 @@
       "style": {
         "noParameterAssign": "off",
         "noUselessElse": "off",
-        "noUnusedTemplateLiteral": "off"
+        "noUnusedTemplateLiteral": "off",
+        "useSelfClosingElements": "off"
       }
     }
   },
