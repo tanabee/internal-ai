@@ -76,7 +76,10 @@ export default function ResponsiveDrawer() {
         <Button
           startIcon={<AddIcon sx={{ height: 16, width: 16 }} />}
           variant="text"
-          onClick={() => navigate('/chat/new')}
+          onClick={() => {
+            navigate('/chat/new')
+            setMobileOpen(false)
+          }}
           sx={{ py: 1, pl: 1.5, pr: 2, fontSize: 14, fontWeight: 'normal', borderRadius: 100 }}
           disabled={!threadId}
         >
@@ -89,7 +92,10 @@ export default function ResponsiveDrawer() {
           <ListItem key={item.id} sx={{ px: 1, py: 0.5 }}>
             <ListItemButton
               sx={{ borderRadius: 100, height: 48 }}
-              onClick={() => navigate(`/chat/${item.id}`)}
+              onClick={() => {
+                navigate(`/chat/${item.id}`)
+                setMobileOpen(false)
+              }}
               selected={item.id === threadId}
             >
               <Typography sx={{ fontSize: 12 }}>{item.title || 'New chat'}</Typography>
@@ -205,7 +211,7 @@ export default function ResponsiveDrawer() {
         sx={{
           flexGrow: 1,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          height: '100vh',
+          height: '100dvh',
           display: 'flex',
           flexDirection: 'column',
         }}

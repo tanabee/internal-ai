@@ -17,7 +17,7 @@ export default function UserList() {
   }
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box sx={{ py: 2, px: 3 }}>
       <Stack direction="row" alignItems="center" sx={{ px: 3, height: 40 }}>
         <Typography color="textSecondary" variant="body2" sx={{ width: 280 }}>
           ID

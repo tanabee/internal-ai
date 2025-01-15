@@ -78,12 +78,13 @@ export default function Chat() {
   return (
     <Box
       sx={{
-        height: 'calc(100vh - 64px)',
+        height: (theme) => `calc(100dvh - ${theme.mixins.toolbar.minHeight}px)`,
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'start',
-        p: 2,
+        py: 2,
+        px: 2,
       }}
     >
       <Stack
@@ -93,6 +94,7 @@ export default function Chat() {
           mb: 2,
           overflowY: 'auto',
           position: 'relative',
+          px: 1,
         }}
         gap={2}
       >
@@ -119,7 +121,15 @@ export default function Chat() {
                 >
                   {item.message.content[0].text.split('\n').map((line, index) => (
                     <Box key={index}>
-                      <Typography component="span">{line}</Typography>
+                      <Typography
+                        sx={{
+                          wordBreak: 'break-word',
+                          overflowWrap: 'break-word',
+                        }}
+                        component="span"
+                      >
+                        {line}
+                      </Typography>
                       <br />
                     </Box>
                   ))}
