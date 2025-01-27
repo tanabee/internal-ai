@@ -1,7 +1,6 @@
 import AddIcon from '@mui/icons-material/Add'
 import MenuIcon from '@mui/icons-material/Menu'
 import AppBar from '@mui/material/AppBar'
-import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -18,6 +17,7 @@ import { useEffect, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router'
 
 import Logo from '@/assets/Logo.tsx'
+import UserAvatar from '@/components/UserAvatar'
 import type { Thread } from '@/entities/thread'
 import { signOut, useAuth } from '@/lib/Auth'
 import { getDoc, orderBy, useDocs } from '@/lib/firestore'
@@ -131,18 +131,7 @@ export default function ResponsiveDrawer() {
             {thread?.title || 'New chat'}
           </Typography>
           <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
-            <Avatar
-              sx={{
-                bgcolor: 'grey.300',
-                width: 32,
-                height: 32,
-                fontSize: 12,
-                fontWeight: 700,
-              }}
-              src={user?.photoURL ?? ''}
-            >
-              {user?.displayName?.charAt(0)}
-            </Avatar>
+            <UserAvatar user={user} />
           </IconButton>
           <Popover
             anchorEl={anchorEl}

@@ -4,6 +4,7 @@ import Layout from '@/components/Layout'
 import Loading from '@/components/Loading'
 import { useAuth } from '@/lib/Auth'
 import Chat from '@/pages/Chat'
+import FinishSignUp from '@/pages/FinishSignUp'
 import Login from '@/pages/Login'
 import UserList from '@/pages/admin/UserList'
 import { Navigate, Route, Routes } from 'react-router'
@@ -20,6 +21,7 @@ export default function App() {
       <Routes>
         <Route path="*" element={<AuthLayout />}>
           <Route path="login" element={<Login />} />
+          <Route path="finishSignUp" element={<FinishSignUp />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Route>
       </Routes>

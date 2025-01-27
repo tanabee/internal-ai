@@ -1,4 +1,5 @@
 import Button from '@/components/Button'
+import UserAvatar from '@/components/UserAvatar'
 import { useAuth } from '@/lib/Auth'
 import { addDoc, generateId, orderBy, setDoc, useDocs } from '@/lib/firestore'
 import SendIcon from '@mui/icons-material/SendOutlined'
@@ -134,19 +135,7 @@ export default function Chat() {
                     </Box>
                   ))}
                 </Box>
-                <Avatar
-                  sx={{
-                    bgcolor: 'grey.300',
-                    width: 32,
-                    height: 32,
-                    fontSize: 12,
-                    fontWeight: 700,
-                    mt: 1,
-                  }}
-                  src={user?.photoURL ?? ''}
-                >
-                  {user?.displayName?.charAt(0)}
-                </Avatar>
+                <UserAvatar user={user} sx={{ mt: 1 }} />
               </Stack>
             )
           } else {
