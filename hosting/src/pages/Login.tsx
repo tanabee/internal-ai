@@ -1,21 +1,27 @@
 import GoogleIcon from '@/assets/GoogleIcon'
 import SendIcon from '@/assets/SendIcon'
-import Button from '@/components/Button'
+import SubmitButton from '@/components/Button'
 import ErrorDialog from '@/components/ErrorDialog'
 import { sendSignInLinkToEmail, signInWithGoogle } from '@/lib/Auth'
+import CloseIcon from '@mui/icons-material/Close'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import IconButton from '@mui/material/IconButton'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
 export default function Login() {
   const [error, setError] = useState<Error | null>(null)
+  const [isSent, setIsSent] = useState(false)
   const {
     control,
     handleSubmit,
-    formState: { isSubmitting },
+    setValue,
+    formState: { isSubmitting, errors },
   } = useForm()
 
   const handleClick = async () => {
@@ -23,7 +29,10 @@ export default function Login() {
   }
 
   const onSubmit = async (values: Record<string, any>) => {
-    return sendSignInLinkToEmail(values.email)
+    await sendSignInLinkToEmail(values.email).then(() => {
+      setValue('email', '')
+      setIsSent(true)
+    })
   }
 
   return (
@@ -37,10 +46,10 @@ export default function Login() {
             control={control}
             defaultValue=""
             rules={{
-              required: true,
+              required: 'Please enter your email',
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'Invalid email address',
+                message: 'Please enter a valid email address',
               },
             }}
             render={({ field }) => (
@@ -52,20 +61,21 @@ export default function Login() {
                 sx={{ flex: 1, py: '5px' }}
                 placeholder="Enter your email"
                 label="Email"
-                type="email"
+                error={Boolean(errors.email)}
+                helperText={errors.email?.message as string}
               />
             )}
           />
-          <Button
+          <SubmitButton
             variant="contained"
-            type="submit"
+            disabled={isSubmitting}
             loading={isSubmitting}
             sx={{ pl: '16px', pr: '12px', py: '9px', borderRadius: '8px', fontWeight: 'normal' }}
             size="small"
             startIcon={<SendIcon />}
           >
             Send Sign in Link
-          </Button>
+          </SubmitButton>
         </Stack>
       </form>
       <Stack spacing={2}>
@@ -96,6 +106,40 @@ export default function Login() {
         </Box>
       </Stack>
       {error && <ErrorDialog message={error.message} onClose={() => setError(null)} />}
+      {isSent && <SuccessDialog onClose={() => setIsSent(false)} />}
     </Stack>
+  )
+}
+
+function SuccessDialog({ onClose }: Record<string, any>) {
+  const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    setOpen(true)
+  }, [])
+
+  return (
+    <Dialog
+      open={open}
+      TransitionProps={{ onExited: onClose }}
+      sx={{ '& .MuiDialog-paper': { background: '#212121', borderRadius: '24px', p: 6 } }}
+    >
+      <Typography variant="h1" sx={{ mb: 5 }}>
+        Please check your mailbox
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 2 }}>
+        We have sent a login link to the email address you provided.
+        <br />
+        Please open the email and click the link to complete the login process.
+        <br />
+        If you do not receive the email after some time, please check your spam folder.
+      </Typography>
+      <Typography variant="caption">
+        Opening the link in the same browser will log you in directly.
+      </Typography>
+      <IconButton sx={{ position: 'absolute', top: 8, right: 8 }} onClick={onClose}>
+        <CloseIcon />
+      </IconButton>
+    </Dialog>
   )
 }

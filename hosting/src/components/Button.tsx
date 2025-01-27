@@ -27,7 +27,7 @@ export default function Button({
             alignItems: 'center',
           }}
         >
-          <CircularProgress size={20} />
+          <CircularProgress color="inherit" size={20} />
         </div>
       )}
     </MuiButton>
