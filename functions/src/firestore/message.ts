@@ -43,7 +43,7 @@ export const onmessagecreated = onDocumentCreated(
       (async () => {
         const threadDocRef = db.doc(`users/${uid}/threads/${threadId}`)
         if (messages.length === 1) {
-          const title = await titleFlow(messages[0].content[0].text ?? '')
+          const { title } = await titleFlow(messages[0].content[0].text ?? '')
           await threadDocRef.update({ title, updatedAt: now })
         } else {
           await threadDocRef.update({ updatedAt: now })

@@ -1,15 +1,15 @@
-import { gemini15Flash, vertexAI } from '@genkit-ai/vertexai'
+import { gemini20Flash001, vertexAI } from '@genkit-ai/vertexai'
 import * as cheerio from 'cheerio'
 import { MessageSchema, genkit, z } from 'genkit'
 
 const ai = genkit({
   plugins: [
     vertexAI({
-      location: 'asia-northeast1',
+      location: 'us-central1',
       projectId: 'internal-ai-demo',
     }),
   ],
-  model: gemini15Flash,
+  model: gemini20Flash001,
 })
 
 const webLoader = ai.defineTool(
