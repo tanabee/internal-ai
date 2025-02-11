@@ -1,5 +1,4 @@
 import { gemini20Flash001, vertexAI } from '@genkit-ai/vertexai'
-import * as cheerio from 'cheerio'
 import { MessageSchema, genkit, z } from 'genkit'
 
 const ai = genkit({
@@ -9,27 +8,8 @@ const ai = genkit({
       projectId: 'internal-ai-demo',
     }),
   ],
-  model: gemini20Flash001,
+  model: gemini20Flash001.withConfig({ googleSearchRetrieval: {} }),
 })
-
-const webLoader = ai.defineTool(
-  {
-    name: 'webLoader',
-    description: 'When a URL is received, it accesses the URL and retrieves the content inside.',
-    inputSchema: z.object({ url: z.string() }),
-    outputSchema: z.string(),
-  },
-  async ({ url }) => {
-    const res = await fetch(url)
-    const html = await res.text()
-    const $ = cheerio.load(html)
-    $('script, style, noscript').remove()
-    if ($('article')) {
-      return $('article').text()
-    }
-    return $('body').text()
-  },
-)
 
 export const chatFlow = ai.defineFlow(
   {
@@ -38,10 +18,7 @@ export const chatFlow = ai.defineFlow(
     outputSchema: z.array(MessageSchema),
   },
   async (messages) => {
-    const response = await ai.generate({
-      messages,
-      tools: [webLoader],
-    })
+    const response = await ai.generate({ messages })
     return response.messages
   },
 )
