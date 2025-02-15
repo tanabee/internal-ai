@@ -2,6 +2,8 @@
 
 internal AI is an OSS project that enables building generative AI chat applications for use within specific organizations.
 
+![internal AI](https://github.com/tanabee/internal-ai/blob/main/docs/assets/internal-ai.png?raw=true)
+
 ## Key features:
 
 - OSS project, customizable to fit organizational requirements
