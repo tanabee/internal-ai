@@ -21,13 +21,13 @@ First, Access [here](https://console.firebase.google.com) and create a Firebase 
 
 Once the creation is completed, proceed with the following configurations.
 
-a. Upgrade the Firebase project to Blaze plan
-b. Enable Firestore Database
-c. Enable Firebase Authentication
+- Upgrade the Firebase project to Blaze plan
+- Enable Firestore Database
+- Enable Firebase Authentication
   - Enable the following Sign-in methods
     - Email/Password (Email link)
     - Google
-d. Add web app
+- Add web app
   - Select `gear icon` > `Project settings` > `General` > Create web app in `Your apps` section.
 
 ### 2. Clone and Modify the source code
@@ -55,7 +55,7 @@ export FIREBASE_PROJECT_ID="your-firebase-project-id" # Replace this with actual
 grep -l "internal-ai-demo" ./**/*.ts .firebaserc -r | xargs sed -i '' "s/internal-ai-demo/${FIREBASE_PROJECT_ID}/g"
 ```
 
-Update the values in [hosting/src/lib/firebase.ts](https://github.com/tanabee/internal-ai/blob/main/hosting/src/lib/firebase.ts#L6-L14) with the `firebaseConfig` values created in Step 1-d.
+Update the values in [hosting/src/lib/firebase.ts](https://github.com/tanabee/internal-ai/blob/main/hosting/src/lib/firebase.ts#L6-L14) with the `firebaseConfig` values created in Step 1 (Add web app).
 
 Modify the validation part of [functions/src/auth/beforeUserCreated.ts](https://github.com/tanabee/internal-ai/blob/main/functions/src/auth/beforeUserCreated.ts#L11-L15) to suit your organization. If you want to restrict the email domain to @company.com, change it as follows:
 
