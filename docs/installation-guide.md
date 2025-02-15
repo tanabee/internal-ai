@@ -79,6 +79,7 @@ Access [the IAM menu in Google Cloud Platform](https://console.cloud.google.com/
 - Cloud Run Invoker
 - Cloud Trace Agent
 - Eventarc Event Receiver
+- Eventarc Service Agent
 - Logs Writer
 - Monitoring Metric Writer
 - Service Usage Consumer
