@@ -8,7 +8,7 @@ const ai = genkit({
       projectId: 'internal-ai-demo',
     }),
   ],
-  model: gemini20Flash001.withConfig({ googleSearchRetrieval: {} }),
+  model: gemini20Flash001,
 })
 
 export const chatFlow = ai.defineFlow(
