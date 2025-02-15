@@ -50,11 +50,23 @@ export const onmessagecreated = onDocumentCreated(
         }
       })(),
       (async () => {
-        const newMessages = await chatFlow(messages)
-        await db.doc(`users/${uid}/threads/${threadId}/messages/${newMessageId}`).set({
-          message: newMessages.at(-1),
-          createdAt: now,
-        })
+        try {
+          const newMessages = await chatFlow(messages)
+          await db.doc(`users/${uid}/threads/${threadId}/messages/${newMessageId}`).set({
+            message: newMessages.at(-1),
+            createdAt: now,
+          })
+        } catch (error: any) {
+          const errorMessage = error.message || 'An error occurred'
+          await db.doc(`users/${uid}/threads/${threadId}/messages/${newMessageId}`).set({
+            message: {
+              role: 'model',
+              content: [{ type: 'text', text: '' }],
+            },
+            error: errorMessage,
+            createdAt: now,
+          })
+        }
       })(),
     ])
   },

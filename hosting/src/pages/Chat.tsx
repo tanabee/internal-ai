@@ -20,6 +20,7 @@ type Message = {
     content: { text: string }[]
   }
   createdAt: string
+  error?: string
 }
 
 export default function Chat() {
@@ -176,8 +177,21 @@ export default function Chat() {
                     },
                   }}
                 >
-                  {item.message.content[0].text !== '' ? (
+                  {item.message.content[0].text ? (
                     <Markdown className="markdown">{item.message.content[0].text}</Markdown>
+                  ) : item.error ? (
+                    <Typography
+                      sx={{
+                        padding: 1.5,
+                        borderRadius: '8px',
+                        border: '1px solid #E53935',
+                        backgroundColor: '#451616',
+                      }}
+                    >
+                      An error occurred. Please try again later.
+                      <br />
+                      If the problem persists, contact the administrator.
+                    </Typography>
                   ) : (
                     <Box>
                       <Skeleton />
