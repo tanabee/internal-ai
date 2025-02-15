@@ -4,7 +4,6 @@ const db = getFirestore()
 
 export const beforeusercreated = beforeUserCreated(async (event) => {
   const user = event.data
-  console.log('user', user)
 
   if (!user) return
 
@@ -14,9 +13,15 @@ export const beforeusercreated = beforeUserCreated(async (event) => {
     throw new HttpsError('permission-denied', 'Unauthorized email')
   }
 
+  const userCount = await db
+    .collection('users')
+    .get()
+    .then(({ docs }) => docs.length)
+  const role = userCount === 0 ? 'admin' : 'user'
+
   await db.doc(`users/${user.uid}`).set({
     email: user.email,
-    role: 'user',
+    role,
     displayName: user.displayName || null,
     photoURL: user.photoURL || null,
     createdAt: Timestamp.now(),
