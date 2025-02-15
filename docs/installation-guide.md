@@ -28,7 +28,7 @@ Once the creation is completed, proceed with the following configurations.
     - Email/Password (Email link)
     - Google
 - Add web app
-  - Select `gear icon` > `Project settings` > `General` > Create web app in `Your apps` section.
+  - Select `gear icon` > `Project settings` > `General` > Create web app in `Your apps` section. The values of firebaseConfig displayed will be used in subsequent steps, so please keep the window open.
 
 ### 2. Clone and Modify the source code
 
@@ -55,7 +55,7 @@ export FIREBASE_PROJECT_ID="your-firebase-project-id" # Replace this with actual
 grep -l "internal-ai-demo" ./**/*.ts .firebaserc -r | xargs sed -i '' "s/internal-ai-demo/${FIREBASE_PROJECT_ID}/g"
 ```
 
-Update the values in [hosting/src/lib/firebase.ts](https://github.com/tanabee/internal-ai/blob/main/hosting/src/lib/firebase.ts#L6-L14) with the `firebaseConfig` values created in Step 1 (Add web app).
+Update the values in [hosting/src/lib/firebase.ts](https://github.com/tanabee/internal-ai/blob/main/hosting/src/lib/firebase.ts#L6-L14) with the `firebaseConfig` values created in Step 1.
 
 Modify the validation part of [functions/src/auth/beforeUserCreated.ts](https://github.com/tanabee/internal-ai/blob/main/functions/src/auth/beforeUserCreated.ts#L11-L15) to suit your organization. If you want to restrict the email domain to @company.com, change it as follows:
 
@@ -66,9 +66,10 @@ Modify the validation part of [functions/src/auth/beforeUserCreated.ts](https://
 
 ### 3. Configure Google Cloud
 
-Enable [Extension API](https://console.developers.google.com/apis/api/firebaseextensions.googleapis.com/overview)
+Enable the following Google Cloud Platform features. When enabling them, make sure that the Firebase project you created is selected.
 
-Enable [Vertex AI API](https://console.cloud.google.com/marketplace/product/google/aiplatform.googleapis.com)
+* [Extension API](https://console.developers.google.com/apis/api/firebaseextensions.googleapis.com/overview)
+* [Vertex AI API](https://console.cloud.google.com/marketplace/product/google/aiplatform.googleapis.com)
 
 Access [the IAM menu in Google Cloud Platform](https://console.cloud.google.com/iam-admin/iam) and grant the following permissions to `[GCP project number]-compute@developer.gserviceaccount.com`.
 
