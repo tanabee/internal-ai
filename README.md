@@ -13,6 +13,7 @@ internal AI is an OSS project that enables building generative AI chat applicati
 - Enables user access to be restricted to specific domains
 - Usage-based billing, not based on the number of users
 
-## Installation Guide
+## Documentation
 
-[docs/installation-guide](https://github.com/tanabee/internal-ai/blob/main/docs/installation-guide.md)
+- [Installation Guide](https://github.com/tanabee/internal-ai/blob/main/docs/installation-guide.md)
+- [Developer Guide](https://github.com/tanabee/internal-ai/blob/main/docs/developer-guide.md)
