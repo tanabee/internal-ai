@@ -70,6 +70,7 @@ Enable the following Google Cloud Platform features. When enabling them, make su
 
 * [Extension API](https://console.developers.google.com/apis/api/firebaseextensions.googleapis.com/overview)
 * [Vertex AI API](https://console.cloud.google.com/marketplace/product/google/aiplatform.googleapis.com)
+* [Compute Engine API](https://console.cloud.google.com/marketplace/product/google/compute.googleapis.com)
 
 Access [the IAM menu in Google Cloud Platform](https://console.cloud.google.com/iam-admin/iam) and grant the following permissions to `[GCP project number]-compute@developer.gserviceaccount.com`.
 
