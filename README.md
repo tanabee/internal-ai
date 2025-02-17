@@ -17,3 +17,8 @@ internal AI is an OSS project that enables building generative AI chat applicati
 
 - [Installation Guide](https://github.com/tanabee/internal-ai/blob/main/docs/installation-guide.md)
 - [Developer Guide](https://github.com/tanabee/internal-ai/blob/main/docs/developer-guide.md)
+
+## Sponsors
+
+Support **internal AI** and help us improve and maintain the project!
+Sponsor us via [GitHub Sponsors](https://github.com/sponsors/tanabee).
