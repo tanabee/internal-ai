@@ -40,6 +40,7 @@ Clone project to your local PC.
 
 ```sh
 git clone git@github.com:[replace this with your GitHub organization]/internal-ai.git
+cd internal-ai
 ```
 
 Install packages using pnpm.
