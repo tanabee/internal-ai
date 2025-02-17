@@ -22,3 +22,10 @@ internal AI is an OSS project that enables building generative AI chat applicati
 
 Support **internal AI** and help us improve and maintain the project!
 Sponsor us via [GitHub Sponsors](https://github.com/sponsors/tanabee).
+
+## Contact
+
+Thank you for your interest in **internal AI**!
+If you have any questions, feedback, or collaboration inquiries, feel free to reach out via the contact form below.
+
+📩 **Contact Form:** [Submit an Inquiry](https://forms.gle/uuxRqBgwcdZ1rWq68)  
