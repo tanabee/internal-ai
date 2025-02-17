@@ -4,13 +4,12 @@ import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore'
 import { connectFunctionsEmulator, getFunctions } from 'firebase/functions'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCrDQQ8qifVSggLZHIe7FL_r8yfkKW3_nk',
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: 'internal-ai-demo.firebaseapp.com',
   projectId: 'internal-ai-demo',
   storageBucket: 'internal-ai-demo.firebasestorage.app',
   messagingSenderId: '19659781336',
   appId: '1:19659781336:web:c820f4aed85779f3f893ad',
-  measurementId: 'G-T6B2EW2WX5',
 }
 
 const app = initializeApp(firebaseConfig)
