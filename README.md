@@ -2,7 +2,7 @@
 
 internal AI is an OSS project that enables building generative AI chat applications for use within specific organizations.
 
-![internal AI](https://github.com/tanabee/internal-ai/blob/main/docs/assets/internal-ai.png?raw=true)
+![internal AI](https://github.com/tanabee/internal-ai/blob/main/docs/assets/internal-ai.gif?raw=true)
 
 ## Key features:
 
@@ -17,6 +17,11 @@ internal AI is an OSS project that enables building generative AI chat applicati
 
 - [Installation Guide](https://github.com/tanabee/internal-ai/blob/main/docs/installation-guide.md)
 - [Developer Guide](https://github.com/tanabee/internal-ai/blob/main/docs/developer-guide.md)
+
+## Articles
+
+- [internal AI: An open-source Genkit-based internal AI chat implementation](https://medium.com/firebase-developers/internal-ai-a-genkit-based-internal-ai-chat-released-as-open-source-37795896a106)
+- [Genkit ベースの社内向け AI チャット「internal AI」を OSS として公開しました！](https://zenn.dev/tanabee/articles/1729f53b9a3223)
 
 ## Sponsors
 
