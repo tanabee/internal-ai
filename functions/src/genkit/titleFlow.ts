@@ -16,11 +16,11 @@ export const titleFlow = ai.defineFlow(
   {
     name: 'titleFlow',
     inputSchema: z.string(),
-    outputSchema: z.object({ title: z.string() }),
+    outputSchema: z.string(),
   },
   async (message) => {
     const prompt = ai.prompt('title')
     const response = await prompt({ message })
-    return response.output
+    return response.text
   },
 )
