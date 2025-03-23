@@ -1,4 +1,4 @@
-import { gemini20Flash001, vertexAI } from '@genkit-ai/vertexai'
+import { gemini20Flash, vertexAI } from '@genkit-ai/vertexai'
 import { MessageSchema, genkit, z } from 'genkit'
 
 const ai = genkit({
@@ -8,7 +8,7 @@ const ai = genkit({
       projectId: 'internal-ai-demo',
     }),
   ],
-  model: gemini20Flash001,
+  model: gemini20Flash,
 })
 
 export const chatFlow = ai.defineFlow(
